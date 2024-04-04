@@ -1,0 +1,146 @@
+<!-- User
+
+我修改了一些地方，请你在我的代码基础上修改，具体需求我稍后给出: <content of test.ipynb>
+
+请将其使用html 和js 重写，要求有一个单页网页来承载所有功能，网页中有一个按钮来启动生成过程，重复点击可重复生成新的图形，按钮下方还有一个div来显示生成的svg图形。这次我们想生成svg矢量图, 因此没有像素的概念了，但是图形的整体比例仍然是10：6.
+
+然后就是人工修改
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Generator</title>
+    <style>
+        svg {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="generateButton">Generate Pattern</button>
+    <button id="exportButton">Export SVG</button>
+    <div id="svgContainer"></div>
+
+    <script>
+        // 定义颜色列表和图形列表
+        const colorPalettes = [
+            // blues
+            ["rgb(251, 251, 251)", "rgb(130, 192, 251)", "rgb(91, 167, 237)", "rgb(61, 133, 198)", "rgb(11, 83, 148)", "rgb(7, 55, 99)"]
+        ];
+        const shapes = ['circle', 'quarter circle top left', 'quarter circle bottom left',
+            'quarter circle top right', 'quarter circle bottom right', 'blank'];
+
+        // 生成正方形的SVG元素
+        function generateSquareSVG(color, shapeColor, shape) {
+            const svgns = "http://www.w3.org/2000/svg";
+            const svgElement = document.createElementNS(svgns, 'svg');
+            svgElement.setAttribute('width', '100');
+            svgElement.setAttribute('height', '100');
+
+            const rect = document.createElementNS(svgns, 'rect');
+            rect.setAttribute('width', '100');
+            rect.setAttribute('height', '100');
+            rect.setAttribute('fill', color);
+            svgElement.appendChild(rect);
+
+
+            // 绘制子图形
+            if (shape !== 'blank') {
+                let shapeElement;
+                switch (shape) {
+                    case 'circle':
+                        shapeElement = document.createElementNS(svgns, 'circle');
+                        shapeElement.setAttribute('cx', '50');
+                        shapeElement.setAttribute('cy', '50');
+                        shapeElement.setAttribute('r', '50');
+                        shapeElement.setAttribute('fill', shapeColor);
+                        break;
+                    case 'quarter circle top left':
+                        shapeElement = document.createElementNS(svgns, 'path');
+                        shapeElement.setAttribute('d', 'M0,0 Q0,100 100,100 L100,0 Z');
+                        shapeElement.setAttribute('fill', shapeColor);
+                        break;
+                    case 'quarter circle bottom left':
+                        shapeElement = document.createElementNS(svgns, 'path');
+                        shapeElement.setAttribute('d', 'M0,0 Q0,100 100,100 L0,100 Z');
+                        shapeElement.setAttribute('fill', shapeColor);
+                        break;
+                    case 'quarter circle top right':
+                        shapeElement = document.createElementNS(svgns, 'path');
+                        shapeElement.setAttribute('d', 'M0,0 Q100,0 100,100 L0,100 Z');
+                        shapeElement.setAttribute('fill', shapeColor);
+                        break;
+                    case 'quarter circle bottom right':
+                        shapeElement = document.createElementNS(svgns, 'path');
+                        shapeElement.setAttribute('d', 'M100,0 Q100,100 0,100 L0,0 Z');
+                        shapeElement.setAttribute('fill', shapeColor);
+                        break;
+                }
+                svgElement.appendChild(shapeElement);
+            }
+
+            return svgElement;
+        }
+
+        function choice(list) {
+            return list[Math.floor(Math.random() * list.length)];
+        }
+
+        // 生成SVG图案并显示在页面上
+        function generateAndDisplayPattern() {
+            const svgContainer = document.getElementById('svgContainer');
+            svgContainer.innerHTML = '';
+
+            const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svgElement.setAttribute('width', '1000');
+            svgElement.setAttribute('height', '600');
+
+            const palette = choice(colorPalettes)
+
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 10; j++) {
+                    const color = choice(palette)
+                    console.log(color)
+                    const shapeColor = choice(palette)
+                    console.log(shapeColor)
+                    const shape = choice(shapes);
+
+                    const svgSquare = generateSquareSVG(color, shapeColor, shape);
+                    svgSquare.setAttribute('x', j * 100);
+                    svgSquare.setAttribute('y', i * 100);
+                    svgElement.appendChild(svgSquare);
+                }
+            }
+
+            svgContainer.appendChild(svgElement);
+        }
+
+        // 添加按钮点击事件处理程序
+        document.getElementById('generateButton').addEventListener('click', generateAndDisplayPattern);
+
+
+        // 添加导出SVG文件的功能
+        document.getElementById('exportButton').addEventListener('click', function () {
+            const svgElement = document.getElementById('svgContainer').querySelector('svg');
+            const svgContent = new XMLSerializer().serializeToString(svgElement);
+            const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'pattern.svg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+
+        // 初始生成一次图案
+        generateAndDisplayPattern();
+    </script>
+</body>
+
+</html>
