@@ -53,10 +53,10 @@
 
     <!-- one layer -->
     <p>
-        <label>pic shape: </label>
+        <label>shape preset: </label>
         <select id="dropdown" name="dropdown">
-            <option value="shape_circle">正圆</option>
-            <option value="shape_quad_circle">四分之一圆</option>
+            <option value="shape_circles">圆和四分之一圆</option>
+            <option value="shape_lines">线段</option>
             <option value="shape_diagonal">斜角</option>
         </select>
     </p>
@@ -67,10 +67,38 @@
     <div id="svgContainer"></div>
 
     <script>
-        const shapes = ['circle', 'quarter circle top left', 'quarter circle bottom left',
-            'quarter circle top right', 'quarter circle bottom right', 'blank'];
+        const shapes = ['circle', 'quarter circle', 'blank'];
 
-        // 生成正方形的SVG元素
+        // const roatations = ['rotate(0, 50, 50)', 'rotate(90, 50, 50)', 'rotate(180, 50, 50)', 'rotate(270, 50, 50)']
+        const roatations = ['rotate(0, 50, 50)', 'rotate(90, 50, 50)', 'rotate(180, 50, 50)', 'rotate(270, 50, 50)']
+
+        function getShape(shapeName, shapeColor) {
+            const svgns = "http://www.w3.org/2000/svg";
+            let shapeElement;
+            switch (shapeName) {
+                case 'circle':
+                    shapeElement = document.createElementNS(svgns, 'circle');
+                    shapeElement.setAttribute('cx', '50');
+                    shapeElement.setAttribute('cy', '50');
+                    shapeElement.setAttribute('r', '50');
+                    shapeElement.setAttribute('fill', shapeColor);
+                    break;
+                case 'quarter circle':
+                    shapeElement = document.createElementNS(svgns, 'path');
+                    shapeElement.setAttribute('d', 'M0,0 Q0,100 100,100 L100,0 Z');
+                    shapeElement.setAttribute('fill', shapeColor);
+                    shapeElement.setAttribute('transform', choice(roatations));
+                    break;
+                case 'diagonal':
+                    shapeElement = document.createElementNS(svgns, 'path');
+                    shapeElement.setAttribute('d', 'M0,0 L100,0 L0,100 Z');
+                    shapeElement.setAttribute('fill', shapeColor);
+                    shapeElement.setAttribute('transform', choice(roatations));
+                    break;
+            }
+            return shapeElement
+        }
+
         function generateSquareSVG(color, shapeColor, shape) {
             const svgns = "http://www.w3.org/2000/svg";
             const svgElement = document.createElementNS(svgns, 'svg');
@@ -83,40 +111,9 @@
             rect.setAttribute('fill', color);
             svgElement.appendChild(rect);
 
-
-            // 绘制子图形
             if (shape !== 'blank') {
-                let shapeElement;
-                switch (shape) {
-                    case 'circle':
-                        shapeElement = document.createElementNS(svgns, 'circle');
-                        shapeElement.setAttribute('cx', '50');
-                        shapeElement.setAttribute('cy', '50');
-                        shapeElement.setAttribute('r', '50');
-                        shapeElement.setAttribute('fill', shapeColor);
-                        break;
-                    case 'quarter circle top left':
-                        shapeElement = document.createElementNS(svgns, 'path');
-                        shapeElement.setAttribute('d', 'M0,0 Q0,100 100,100 L100,0 Z');
-                        shapeElement.setAttribute('fill', shapeColor);
-                        break;
-                    case 'quarter circle bottom left':
-                        shapeElement = document.createElementNS(svgns, 'path');
-                        shapeElement.setAttribute('d', 'M0,0 Q0,100 100,100 L0,100 Z');
-                        shapeElement.setAttribute('fill', shapeColor);
-                        break;
-                    case 'quarter circle top right':
-                        shapeElement = document.createElementNS(svgns, 'path');
-                        shapeElement.setAttribute('d', 'M0,0 Q100,0 100,100 L0,100 Z');
-                        shapeElement.setAttribute('fill', shapeColor);
-                        break;
-                    case 'quarter circle bottom right':
-                        shapeElement = document.createElementNS(svgns, 'path');
-                        shapeElement.setAttribute('d', 'M100,0 Q100,100 0,100 L0,0 Z');
-                        shapeElement.setAttribute('fill', shapeColor);
-                        break;
-                }
-                svgElement.appendChild(shapeElement);
+                svgShape = getShape(shape, shapeColor)
+                svgElement.appendChild(svgShape);
             }
 
             return svgElement;
@@ -155,9 +152,7 @@
             for (let i = 0; i < 6; i++) {
                 for (let j = 0; j < 10; j++) {
                     const color = choice(palette)
-                    console.log(color)
                     const shapeColor = choice(palette)
-                    console.log(shapeColor)
                     const shape = choice(shapes);
 
                     const svgSquare = generateSquareSVG(color, shapeColor, shape);
