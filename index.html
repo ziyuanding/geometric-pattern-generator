@@ -21,16 +21,52 @@
 </head>
 
 <body>
+    <!-- run & export -->
     <button id="generateButton">Generate Pattern</button>
     <button id="exportButton">Export SVG</button>
+
+    <!-- editor -->
+    <p> <label for="userInput">grid width: </label> <input type="text" id="userInput" name="userInput" value=100>
+        <label for="userInput">grid height: </label> <input type="text" id="userInput" name="userInput" value=100>
+    </p>
+
+    <label for="colorPalette">Choose a color palette:</label>
+    <select id="colorPalette" name="colorPalette" onchange="initializeColorPickers(this.value)">
+        <option value="palette_blue"> blue </option>
+        <option value="palette_green"> green </option>
+    </select>
+
+    <div>
+        <label for="colorPicker1">Color 1:</label>
+        <input type="color" id="colorPicker1" name="colorPicker1">
+        <label for="colorPicker2">Color 2:</label>
+        <input type="color" id="colorPicker2" name="colorPicker2">
+        <label for="colorPicker3">Color 3:</label>
+        <input type="color" id="colorPicker3" name="colorPicker3">
+        <label for="colorPicker4">Color 4:</label>
+        <input type="color" id="colorPicker4" name="colorPicker4">
+        <label for="colorPicker5">Color 5:</label>
+        <input type="color" id="colorPicker5" name="colorPicker5">
+        <label for="colorPicker6">Color 6:</label>
+        <input type="color" id="colorPicker6" name="colorPicker6">
+    </div>
+
+    <!-- one layer -->
+    <p>
+        <label>pic shape: </label>
+        <select id="dropdown" name="dropdown">
+            <option value="shape_circle">正圆</option>
+            <option value="shape_quad_circle">四分之一圆</option>
+            <option value="shape_diagonal">斜角</option>
+        </select>
+    </p>
+
+    <script src="colorPaletteScript.js">
+    </script>
+
     <div id="svgContainer"></div>
 
     <script>
-        // 定义颜色列表和图形列表
-        const colorPalettes = [
-            // blues
-            ["rgb(251, 251, 251)", "rgb(130, 192, 251)", "rgb(91, 167, 237)", "rgb(61, 133, 198)", "rgb(11, 83, 148)", "rgb(7, 55, 99)"]
-        ];
         const shapes = ['circle', 'quarter circle top left', 'quarter circle bottom left',
             'quarter circle top right', 'quarter circle bottom right', 'blank'];
 
@@ -90,16 +126,31 @@
             return list[Math.floor(Math.random() * list.length)];
         }
 
+
+        function collectColorPalette() {
+            colorPalette =
+                [
+                    document.getElementById('colorPicker1').value,
+                    document.getElementById('colorPicker2').value,
+                    document.getElementById('colorPicker3').value,
+                    document.getElementById('colorPicker4').value,
+                    document.getElementById('colorPicker5').value,
+                    document.getElementById('colorPicker6').value
+                ];
+            return colorPalette
+        }
+
         // 生成SVG图案并显示在页面上
         function generateAndDisplayPattern() {
+            // collect color array from color pickers
+            const palette = collectColorPalette()
+
             const svgContainer = document.getElementById('svgContainer');
             svgContainer.innerHTML = '';
 
             const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             svgElement.setAttribute('width', '1000');
             svgElement.setAttribute('height', '600');
-
-            const palette = choice(colorPalettes)
 
             for (let i = 0; i < 6; i++) {
                 for (let j = 0; j < 10; j++) {
