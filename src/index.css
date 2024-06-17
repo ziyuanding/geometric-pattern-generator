@@ -15,3 +15,21 @@ code {
 .inline-block {
   display: inline-block;
 }
+
+/* src/App.css */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  border-right: 1px solid #f0f0f0;
+}
+
+.right-pane {
+  width: 600px;
+  padding: 20px;
+}

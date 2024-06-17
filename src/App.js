@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button, InputNumber, Select, Row, Col, Input, Card } from 'antd';
+import { Button, InputNumber, Select, Row, Col, Input, Card, Tooltip } from 'antd';
 import 'antd/dist/reset.css';  // 确保引入了样式
 import { choice } from './util'
-const { Option } = Select;
 
 const initialData = {
   shapes: [
@@ -148,102 +147,105 @@ const App = () => {
     svgContainer.appendChild(svgTotal);
   }
 
+  const isDeleteDisabled = data.shapes.length === 1;
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Button type="primary" onClick={addShape} style={{ marginBottom: '20px' }}>
-        添加面板
-      </Button>
-      <Row gutter={24}>
-        <Col span={16} >
-          <Row gutter={16}>
-            {data.shapes.map((shape, shapeIndex) => (
-              <Col span={6} key={shapeIndex}>
-                <Card
-                  title={`Shape ${shapeIndex + 1}`}
-                  extra={<Button type="danger" onClick={() => removeShape(shapeIndex)}>删除</Button>}
-                  style={{ marginBottom: '20px' }}
-                >
-                  <Row gutter={8} align="middle" style={{ marginBottom: '5px' }}>
+    <div style={{ padding: '1px' }} className="container">
+
+      <div className="left-pane">
+        <Button type="primary" onClick={addShape} style={{ marginBottom: '20px' }}>
+          添加面板
+        </Button>
+        <Row gutter={16}>
+          {data.shapes.map((shape, shapeIndex) => (
+            <Col span={6} key={shapeIndex}>
+              <Card
+                title={`Shape ${shapeIndex + 1}`}
+                extra={
+                  <Tooltip title={isDeleteDisabled ? 'Cannot delete the last layer' : ''}>
+                    <Button  type="primary" danger disabled={isDeleteDisabled} onClick={() => removeShape(shapeIndex)}>删除</Button>
+                  </Tooltip>
+                
+              }
+                style={{ marginBottom: '20px' }}
+              >
+                <Row gutter={8} align="middle" style={{ marginBottom: '5px' }}>
+                  <Col span={12}>
+                    <Select defaultValue={shape.shape} style={{ width: '100%', marginBottom: '10px' }} options={shape_options}
+                      onChange={(value) => handleShapeChange(shapeIndex, 'shape', value)}>
+                    </Select>
+                  </Col>
+                  <Col span={12}>
+                    <InputNumber
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      defaultValue={shape.prob}
+                      onChange={(value) => handleShapeChange(shapeIndex, 'shapeProb', value)}
+                      style={{ width: '100%' }}
+                    />
+                  </Col>
+                </Row>
+
+
+
+                {shape.colors.map((color, colorIndex) => (
+                  <Row key={colorIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
                     <Col span={12}>
-                      <Select defaultValue={shape.shape} style={{ width: '100%', marginBottom: '10px' }} options={shape_options}
-                        onChange={(value) => handleShapeChange(shapeIndex, 'shape', value)}>
-                      </Select>
+                      <Input
+                        type="color"
+                        value={color.color}
+                        onChange={(e) => handleColorChange(shapeIndex, colorIndex, 'color', e.target.value)}
+                        style={{ width: '100%' }}
+                      />
                     </Col>
                     <Col span={12}>
                       <InputNumber
                         min={0}
                         max={1}
                         step={0.01}
-                        defaultValue={shape.prob}
-                        onChange={(value) => handleShapeChange(shapeIndex, 'shapeProb', value)}
+                        value={color.prob}
+                        onChange={(value) => handleColorChange(shapeIndex, colorIndex, 'prob', value)}
                         style={{ width: '100%' }}
                       />
                     </Col>
                   </Row>
-
-
-
-                  {shape.colors.map((color, colorIndex) => (
-                    <Row key={colorIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
-                      <Col span={12}>
-                        <Input
-                          type="color"
-                          value={color.color}
-                          onChange={(e) => handleColorChange(shapeIndex, colorIndex, 'color', e.target.value)}
-                          style={{ width: '100%' }}
-                        />
-                      </Col>
-                      <Col span={12}>
-                        <InputNumber
-                          min={0}
-                          max={1}
-                          step={0.01}
-                          value={color.prob}
-                          onChange={(value) => handleColorChange(shapeIndex, colorIndex, 'prob', value)}
-                          style={{ width: '100%' }}
-                        />
-                      </Col>
-                    </Row>
-                  ))}
-                  {shape.degrees.map((degree, degreeIndex) => (
-                    <Row key={degreeIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
-                      <Col span={12}>
-                        <InputNumber
-                          min={0}
-                          max={360}
-                          step={1}
-                          value={degree.degree}
-                          onChange={(value) => handleDegreeChange(shapeIndex, degreeIndex, 'degree', value)}
-                          style={{ width: '100%' }}
-                        />
-                      </Col>
-                      <Col span={12}>
-                        <InputNumber
-                          min={0}
-                          max={1}
-                          step={0.01}
-                          value={degree.prob}
-                          onChange={(value) => handleDegreeChange(shapeIndex, degreeIndex, 'prob', value)}
-                          style={{ width: '100%' }}
-                        />
-                      </Col>
-                    </Row>
-                  ))}
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Col>
-        <Col span={4}>
-          <Button onClick={generateAndDisplayPattern}> regenerate </Button>
-          <Button> export svg </Button>
-          <div id="svgContainer"></div>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </Col>
-
-
-      </Row>
+                ))}
+                {shape.degrees.map((degree, degreeIndex) => (
+                  <Row key={degreeIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
+                    <Col span={12}>
+                      <InputNumber
+                        min={0}
+                        max={360}
+                        step={1}
+                        value={degree.degree}
+                        onChange={(value) => handleDegreeChange(shapeIndex, degreeIndex, 'degree', value)}
+                        style={{ width: '100%' }}
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <InputNumber
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={degree.prob}
+                        onChange={(value) => handleDegreeChange(shapeIndex, degreeIndex, 'prob', value)}
+                        style={{ width: '100%' }}
+                      />
+                    </Col>
+                  </Row>
+                ))}
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
+      <div className="right-pane">
+        <Button onClick={generateAndDisplayPattern}> regenerate </Button>
+        <Button> export svg </Button>
+        <div id="svgContainer"></div>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div>
     </div>
   );
 };
