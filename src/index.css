@@ -19,7 +19,7 @@ code {
 /* src/App.css */
 .container {
   display: flex;
-  height: 100vh;
+  height: 95vh;
 }
 
 .left-pane {

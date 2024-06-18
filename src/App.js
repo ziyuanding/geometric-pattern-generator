@@ -4,6 +4,8 @@ import 'antd/dist/reset.css';  // 确保引入了样式
 import { choice } from './util'
 
 const initialData = {
+  grid_hor: 10,
+  grid_ver: 6,
   layers: [
     {
       shapes: [
@@ -70,6 +72,13 @@ const App = () => {
     setData(newData);
   };
 
+  const handleGridChange = (key, value) => {
+    const newData = { ...data };
+    newData[key] = value;
+    setData(newData);
+  }
+
+
   const addShape = (layerIndex) => {
     const newData = { ...data };
     const newShape = structuredClone(initialData.layers[0].shapes[0]);
@@ -130,8 +139,6 @@ const App = () => {
   function generateSVG(shapeName, shapeColors, shapeDegrees) {
     const svgns = "http://www.w3.org/2000/svg";
     const svgElement = document.createElementNS(svgns, 'svg');
-    // svgElement.setAttribute('width', '100');
-    // svgElement.setAttribute('height', '100');
     var svgShape = null
     svgShape = getShape(shapeName, shapeColors, shapeDegrees)
     svgElement.appendChild(svgShape);
@@ -143,11 +150,11 @@ const App = () => {
     svgContainer.innerHTML = '';
 
     const svgTotal = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svgTotal.setAttribute('width', '1000');
+    svgTotal.setAttribute('width', '500');
     svgTotal.setAttribute('height', '600');
 
-    for (let i = 0; i < 6; i++) {
-      for (let j = 0; j < 10; j++) {
+    for (let i = 0; i < data.grid_ver; i++) {
+      for (let j = 0; j < data.grid_hor; j++) {
         for (let k = 0; k < data.layers.length; k++) {
           const shape = choice(data.layers[k].shapes)
           const shapeName = shape.shape
@@ -162,7 +169,7 @@ const App = () => {
 
       }
     }
-    let scale = 0.05
+    let scale = 0.09
     svgTotal.setAttribute('viewBox', `0 0 ${100 / scale} ${100 / scale}`);
     svgContainer.appendChild(svgTotal);
   }
@@ -295,9 +302,23 @@ const App = () => {
 
       </div>
       <div className="right-pane">
+      grid_hor:
+        <InputNumber
+          min={1}
+          step={1}
+          value={data.grid_hor}
+          onChange={(value) => handleGridChange('grid_hor', value)}
+        />
+        grid_ver:
+        <InputNumber
+          min={1}
+          step={1}
+          value={data.grid_ver}
+          onChange={(value) => handleGridChange('grid_ver', value)}
+        />
+        <div id="svgContainer"></div>
         <Button onClick={generateAndDisplayPattern}> regenerate </Button>
         <Button> export svg </Button>
-        <div id="svgContainer"></div>
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>
