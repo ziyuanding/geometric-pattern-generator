@@ -122,7 +122,6 @@ const App = () => {
         shapeElement.setAttribute('d', 'M0,0 L100,0 L0,100 Z');
         break;
     }
-    console.log(choice(shapeColors))
     shapeElement.setAttribute('fill', choice(shapeColors).color);
     shapeElement.setAttribute('transform', `rotate(${choice(shapeDegrees).degree},50,50)`);
     return shapeElement
@@ -131,8 +130,8 @@ const App = () => {
   function generateSVG(shapeName, shapeColors, shapeDegrees) {
     const svgns = "http://www.w3.org/2000/svg";
     const svgElement = document.createElementNS(svgns, 'svg');
-    svgElement.setAttribute('width', '100');
-    svgElement.setAttribute('height', '100');
+    // svgElement.setAttribute('width', '100');
+    // svgElement.setAttribute('height', '100');
     var svgShape = null
     svgShape = getShape(shapeName, shapeColors, shapeDegrees)
     svgElement.appendChild(svgShape);
@@ -149,17 +148,18 @@ const App = () => {
 
     for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 10; j++) {
-        // shape 1, should always be blank shape
-        // select a shape
-        const shape = choice(data.layers[0].shapes)
-        const shapeName = shape.shape
-        const shapeColors = shape.colors
-        const shapeDegrees = shape.degrees
+        for (let k = 0; k < data.layers.length; k++) {
+          const shape = choice(data.layers[k].shapes)
+          const shapeName = shape.shape
+          const shapeColors = shape.colors
+          const shapeDegrees = shape.degrees
 
-        const svg = generateSVG(shapeName, shapeColors, shapeDegrees);
-        svg.setAttribute('x', j * 100);
-        svg.setAttribute('y', i * 100);
-        svgTotal.appendChild(svg);
+          const svg = generateSVG(shapeName, shapeColors, shapeDegrees);
+          svg.setAttribute('x', j * 100);
+          svg.setAttribute('y', i * 100);
+          svgTotal.appendChild(svg);
+        }
+
       }
     }
     let scale = 0.05
@@ -298,7 +298,7 @@ const App = () => {
         <Button onClick={generateAndDisplayPattern}> regenerate </Button>
         <Button> export svg </Button>
         <div id="svgContainer"></div>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>
   );
