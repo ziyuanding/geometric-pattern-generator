@@ -183,7 +183,7 @@ const App = () => {
     let width = 0;
     const original_aspect_ratio = data.grid_ver / data.grid_hor;
     console.log(original_aspect_ratio);
-    
+
     if (data.grid_ver > data.grid_hor) {
       height = Math.min(600, 500 * original_aspect_ratio);
       width = height / original_aspect_ratio;
@@ -276,10 +276,11 @@ const App = () => {
   }
 
 
-
   return (
     <div style={{ padding: '1px' }} className="container">
+
       <div className="left-pane">
+
         <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
           添加Layer
         </Button>
@@ -403,6 +404,13 @@ const App = () => {
         <div id="svgContainer"></div>
         <Button className="bottom-button" onClick={generateAndDisplayPattern}> regenerate </Button>
         <Button className="bottom-button" onClick={exportSVG}> export svg </Button>
+        <a href="https://www.buymeacoffee.com/ziyuanding" target="_blank" rel="noopener noreferrer" style={{ display: 'block', textAlign: 'right' }}>
+          <img
+            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+            alt="Buy Me A Coffee"
+            style={{ height: '30px', width: '100px' }}
+          />
+        </a>
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>
