@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { Button, InputNumber, Select, Row, Col, Input, Card, Tooltip, Divider } from 'antd';
+import { cyan, generate, green, presetPalettes, red } from '@ant-design/colors';
+import { Button, InputNumber, Select, Row, Col, Input, Card, Tooltip, Divider, ColorPicker, Space, theme } from 'antd';
+
 import 'antd/dist/reset.css';  // 确保引入了样式
 import { choice } from './util'
+const genPresets = (presets = presetPalettes) =>
+  Object.entries(presets).map(([label, colors]) => ({
+    label,
+    colors,
+  }));
+
 
 const initialData = {
   grid_hor: 10,
@@ -13,7 +21,7 @@ const initialData = {
           shape: 'blank',
           weight: 1,
           colors: [
-            { color: '#FFFFFF', weight: 1 },
+            { color: '#BAE0FF', weight: 1 },
             { color: '#D3E5FF', weight: 1 },
             { color: '#A6CAFF', weight: 1 },
             { color: '#79AFFF', weight: 1 },
@@ -62,7 +70,7 @@ const App = () => {
 
   const handleColorChange = (layerIndex, shapeIndex, colorIndex, key, value) => {
     const newData = { ...data };
-    newData.layers[layerIndex].shapes[shapeIndex].colors[colorIndex][key] = value;
+    newData.layers[layerIndex].shapes[shapeIndex].colors[colorIndex][key] = value.metaColor.originalInput;
     setData(newData);
   };
 
@@ -171,20 +179,21 @@ const App = () => {
     // svgTotal.setAttribute('viewBox', `0 0 ${100 / scale} ${100 / scale}`);
 
     // 更高，优先撑满600
-    let height = 0
-    let width = 0
-    let original_aspect_ratio = data.grid_ver / data.grid_hor
-
-    if(data.grid_ver >= data.grid_hor) {
-      height = 600
-      width = height / original_aspect_ratio
+    let height = 0;
+    let width = 0;
+    const original_aspect_ratio = data.grid_ver / data.grid_hor;
+    console.log(original_aspect_ratio);
+    
+    if (data.grid_ver > data.grid_hor) {
+      height = Math.min(600, 500 * original_aspect_ratio);
+      width = height / original_aspect_ratio;
     } else {
-      width = 500
-      height = width * original_aspect_ratio
+      width = Math.min(500, 600 * original_aspect_ratio);
+      height = width * original_aspect_ratio;
     }
     svgTotal.setAttribute('width', width);
     svgTotal.setAttribute('height', height);
-    svgTotal.setAttribute('viewBox', `0 0 ${data.grid_hor*100} ${data.grid_ver*100}`);
+    svgTotal.setAttribute('viewBox', `0 0 ${data.grid_hor * 100} ${data.grid_ver * 100}`);
 
     svgContainer.appendChild(svgTotal);
   }
@@ -208,9 +217,9 @@ const App = () => {
     const originalSVG = document.getElementById('svgContainer').querySelector('svg');
     let svgElement = originalSVG.cloneNode(true);
     // 调整克隆的SVG的属性
-    svgElement.setAttribute('width', data.grid_hor*100); // 设置宽度
-    svgElement.setAttribute('height', data.grid_ver*100); // 设置高度
-    svgElement.setAttribute('viewBox', `0 0  ${data.grid_hor*100} ${data.grid_ver*100}`); // 设置viewBox
+    svgElement.setAttribute('width', data.grid_hor * 100); // 设置宽度
+    svgElement.setAttribute('height', data.grid_ver * 100); // 设置高度
+    svgElement.setAttribute('viewBox', `0 0  ${data.grid_hor * 100} ${data.grid_ver * 100}`); // 设置viewBox
 
     const svgContent = new XMLSerializer().serializeToString(svgElement);
     const blob = new Blob([svgContent], { type: 'image/svg+xml' });
@@ -223,6 +232,50 @@ const App = () => {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }
+
+
+  const PresetColorPicker = ({ value, param }) => {
+    console.log(value)
+    console.log(param)
+    const { token } = theme.useToken();
+    const presets = genPresets({
+      primary: generate(token.colorPrimary),
+      red,
+      green,
+      cyan,
+    });
+    const customPanelRender = (_, { components: { Picker, Presets } }) => (
+      <Row justify="space-between" wrap={false}>
+        <Col span={12}>
+          <Presets />
+        </Col>
+        <Divider
+          type="vertical"
+          style={{
+            height: 'auto',
+          }}
+        />
+        <Col flex="auto">
+          <Picker />
+        </Col>
+      </Row>
+    );
+    return (
+      <ColorPicker
+        value={value}
+        onChangeComplete={(e) => handleColorChange(param[0], param[1], param[2], 'color', e)}
+        styles={{
+          popupOverlayInner: {
+            width: 480,
+          },
+        }}
+        presets={presets}
+        panelRender={customPanelRender}
+      />
+    );
+  }
+
+
 
   return (
     <div style={{ padding: '1px' }} className="container">
@@ -280,12 +333,8 @@ const App = () => {
                     {shape.colors.map((color, colorIndex) => (
                       <Row key={colorIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
                         <Col span={12}>
-                          <Input
-                            type="color"
-                            value={color.color}
-                            onChange={(e) => handleColorChange(layerIndex, shapeIndex, colorIndex, 'color', e.target.value)}
-                            style={{ width: '100%' }}
-                          />
+                          <PresetColorPicker value={color.color} param={[layerIndex, shapeIndex, colorIndex]}
+                            style={{ width: '100%' }}></PresetColorPicker>
                         </Col>
                         <Col span={6}>
                           <InputNumber

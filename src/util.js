@@ -4,7 +4,6 @@ export const choice = (arr) => {
   
     // 生成一个0到totalWeight之间的随机数
     let randomNum = Math.random() * totalWeight;
-    console.log(randomNum)
     // 根据权重选择一个元素
     for (const item of arr) {
       if (randomNum < item.weight) {

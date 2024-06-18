@@ -39,7 +39,7 @@ code {
 }
 
 #svgContainer {
-  width: 500px;
-  height: 600px;
-  background-color: lightblue;
+  width: 505px;
+  height: 605px;
+  border: 3px dashed red;
 }
