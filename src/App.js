@@ -9,20 +9,20 @@ const initialData = {
       shapes: [
         {
           shape: 'blank',
-          prob: 0.25,
+          weight: 1,
           colors: [
-            { color: '#FFFFFF', prob: 0.1667 },
-            { color: '#D3E5FF', prob: 0.1667 },
-            { color: '#A6CAFF', prob: 0.1667 },
-            { color: '#79AFFF', prob: 0.1667 },
-            { color: '#4C94FF', prob: 0.1667 },
-            { color: '#1F79FF', prob: 0.1667 },
+            { color: '#FFFFFF', weight: 1 },
+            { color: '#D3E5FF', weight: 1 },
+            { color: '#A6CAFF', weight: 1 },
+            { color: '#79AFFF', weight: 1 },
+            { color: '#4C94FF', weight: 1 },
+            { color: '#1F79FF', weight: 1 },
           ],
           degrees: [
-            { degree: 0, prob: 0.25 },
-            { degree: 90, prob: 0.25 },
-            { degree: 270, prob: 0.25 },
-            { degree: 360, prob: 0.25 },
+            { degree: 0, weight: 1 },
+            { degree: 90, weight: 1 },
+            { degree: 270, weight: 1 },
+            { degree: 360, weight: 1 },
           ],
         },
       ],
@@ -176,12 +176,18 @@ const App = () => {
     return data.layers.length === 1;
   };
 
+  const weight2prob = (arr, weight) => {
+    const totalWeight = arr.reduce((sum, item) => sum + item.weight, 0);
+    const prob = weight / totalWeight
+    return prob.toFixed(2);
+  }
+
   return (
     <div style={{ padding: '1px' }} className="container">
       <div className="left-pane">
-      <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
-        添加Layer
-      </Button>
+        <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
+          添加Layer
+        </Button>
         {data.layers.map((layer, layerIndex) => (
           <div>
             <Button type="primary" onClick={() => addShape(layerIndex)} style={{ marginBottom: '20px' }}>
@@ -209,19 +215,21 @@ const App = () => {
                   >
                     <Row gutter={8} align="middle" style={{ marginBottom: '5px' }}>
                       <Col span={12}>
-                        <Select defaultValue={shape.shape} style={{ width: '100%', marginBottom: '10px' }} options={shape_options}
+                        <Select defaultValue={shape.shape} style={{ width: '100%', }} options={shape_options}
                           onChange={(value) => handleShapeChange(layerIndex, shapeIndex, 'shape', value)}>
                         </Select>
                       </Col>
-                      <Col span={12}>
+                      <Col span={6}>
                         <InputNumber
                           min={0}
-                          max={1}
                           step={0.01}
-                          defaultValue={shape.prob}
-                          onChange={(value) => handleShapeChange(layerIndex, shapeIndex, 'shapeProb', value)}
+                          defaultValue={shape.weight}
+                          onChange={(value) => handleShapeChange(layerIndex, shapeIndex, 'weight', value)}
                           style={{ width: '100%' }}
                         />
+                      </Col>
+                      <Col span={6}>
+                        prob: {weight2prob(layer.shapes, shape.weight)}
                       </Col>
                     </Row>
 
@@ -237,15 +245,17 @@ const App = () => {
                             style={{ width: '100%' }}
                           />
                         </Col>
-                        <Col span={12}>
+                        <Col span={6}>
                           <InputNumber
                             min={0}
-                            max={1}
                             step={0.01}
-                            value={color.prob}
-                            onChange={(value) => handleColorChange(layerIndex, shapeIndex, colorIndex, 'prob', value)}
+                            value={color.weight}
+                            onChange={(value) => handleColorChange(layerIndex, shapeIndex, colorIndex, 'weight', value)}
                             style={{ width: '100%' }}
                           />
+                        </Col>
+                        <Col span={6}>
+                          prob: {weight2prob(shape.colors, color.weight)}
                         </Col>
                       </Row>
                     ))}
@@ -261,15 +271,17 @@ const App = () => {
                             style={{ width: '100%' }}
                           />
                         </Col>
-                        <Col span={12}>
+                        <Col span={6}>
                           <InputNumber
                             min={0}
-                            max={1}
                             step={0.01}
-                            value={degree.prob}
-                            onChange={(value) => handleDegreeChange(layerIndex, shapeIndex, degreeIndex, 'prob', value)}
+                            value={degree.weight}
+                            onChange={(value) => handleDegreeChange(layerIndex, shapeIndex, degreeIndex, 'weight', value)}
                             style={{ width: '100%' }}
                           />
+                        </Col>
+                        <Col span={6}>
+                          prob: {weight2prob(shape.degrees, degree.weight)}
                         </Col>
                       </Row>
                     ))}
