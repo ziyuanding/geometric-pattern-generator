@@ -150,8 +150,7 @@ const App = () => {
     svgContainer.innerHTML = '';
 
     const svgTotal = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svgTotal.setAttribute('width', '500');
-    svgTotal.setAttribute('height', '600');
+
 
     for (let i = 0; i < data.grid_ver; i++) {
       for (let j = 0; j < data.grid_hor; j++) {
@@ -166,11 +165,27 @@ const App = () => {
           svg.setAttribute('y', i * 100);
           svgTotal.appendChild(svg);
         }
-
       }
     }
-    let scale = 0.09
-    svgTotal.setAttribute('viewBox', `0 0 ${100 / scale} ${100 / scale}`);
+    // let scale = 0.09
+    // svgTotal.setAttribute('viewBox', `0 0 ${100 / scale} ${100 / scale}`);
+
+    // 更高，优先撑满600
+    let height = 0
+    let width = 0
+    let original_aspect_ratio = data.grid_ver / data.grid_hor
+
+    if(data.grid_ver >= data.grid_hor) {
+      height = 600
+      width = height / original_aspect_ratio
+    } else {
+      width = 500
+      height = width * original_aspect_ratio
+    }
+    svgTotal.setAttribute('width', width);
+    svgTotal.setAttribute('height', height);
+    svgTotal.setAttribute('viewBox', `0 0 ${data.grid_hor*100} ${data.grid_ver*100}`);
+
     svgContainer.appendChild(svgTotal);
   }
 
@@ -187,6 +202,26 @@ const App = () => {
     const totalWeight = arr.reduce((sum, item) => sum + item.weight, 0);
     const prob = weight / totalWeight
     return prob.toFixed(2);
+  }
+
+  const exportSVG = () => {
+    const originalSVG = document.getElementById('svgContainer').querySelector('svg');
+    let svgElement = originalSVG.cloneNode(true);
+    // 调整克隆的SVG的属性
+    svgElement.setAttribute('width', data.grid_hor*100); // 设置宽度
+    svgElement.setAttribute('height', data.grid_ver*100); // 设置高度
+    svgElement.setAttribute('viewBox', `0 0  ${data.grid_hor*100} ${data.grid_ver*100}`); // 设置viewBox
+
+    const svgContent = new XMLSerializer().serializeToString(svgElement);
+    const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'pattern.svg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   return (
@@ -302,7 +337,7 @@ const App = () => {
 
       </div>
       <div className="right-pane">
-      grid_hor:
+        grid_hor:
         <InputNumber
           min={1}
           step={1}
@@ -317,8 +352,8 @@ const App = () => {
           onChange={(value) => handleGridChange('grid_ver', value)}
         />
         <div id="svgContainer"></div>
-        <Button onClick={generateAndDisplayPattern}> regenerate </Button>
-        <Button> export svg </Button>
+        <Button className="bottom-button" onClick={generateAndDisplayPattern}> regenerate </Button>
+        <Button className="bottom-button" onClick={exportSVG}> export svg </Button>
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>

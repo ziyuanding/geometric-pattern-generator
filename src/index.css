@@ -33,3 +33,13 @@ code {
   width: 600px;
   padding: 20px;
 }
+
+.bottom-button {
+  bottom: 0;
+}
+
+#svgContainer {
+  width: 500px;
+  height: 600px;
+  background-color: lightblue;
+}
