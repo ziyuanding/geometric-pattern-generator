@@ -7,5 +7,12 @@
   "regenerate": "重新生成",
   "export_svg": "导出SVG",
   "hor_grid_count": "横向方格数量",
-  "ver_grid_count": "纵向方格数量"
+  "ver_grid_count": "纵向方格数量",
+  "use_preset_colors": "使用预设颜色",
+  "add_color": "添加颜色",
+  "use_preset_degrees": "使用预设角度",
+  "add_degree": "添加角度",
+  "select_palette": "请选择一组预设颜色",
+  "select_degree_preset": "请选择一组预设角度",
+  "weight": "权重"
 }

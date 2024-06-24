@@ -5,6 +5,10 @@ import { weight2prob, genPresets } from './utils';
 import { shape_options, initialData } from './initialData'
 import PresetColorPicker from './PresetColorPicker';
 import LanguageSwitcher from './LanguageSwitcher';
+import PaletteSelector from './PaletteSelector';
+import DegreePresetSelector from './DegreePresetSelector';
+
+import { CloseOutlined } from '@ant-design/icons';
 
 const ConfigPanel = ({ data, setData }) => {
   const { t } = useTranslation();
@@ -60,7 +64,13 @@ const ConfigPanel = ({ data, setData }) => {
   const isLayerDeleteDisabled = () => {
     return data.layers.length === 1;
   };
+  const handlePaletteChange = (palette) => {
+    console.log('Selected palette:', palette);
+  };
 
+  const handleDegreePresetChange = (degrees) => {
+    console.log('Selected degrees:', degrees);
+  };
   return (
     <div>
       <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
@@ -83,14 +93,18 @@ const ConfigPanel = ({ data, setData }) => {
                 <Card
                   title={`Shape ${shapeIndex + 1}`}
                   extra={
-                    <Tooltip title={isShapeDeleteDisabled(layerIndex) ? 'Cannot delete the last shape' : ''}>
-                      <Button type="primary" danger disabled={isShapeDeleteDisabled(layerIndex)} onClick={() => removeShape(layerIndex, shapeIndex)}>
-                        {t('remove_panel')}
-                      </Button>
-                    </Tooltip>
+                    <div>
+                      <Tooltip title={isShapeDeleteDisabled(layerIndex) ? 'Cannot delete the last shape' : ''}>
+                        <Button type="primary" danger disabled={isShapeDeleteDisabled(layerIndex)} onClick={() => removeShape(layerIndex, shapeIndex)}>
+                          {t('remove_panel')}
+                        </Button>
+                      </Tooltip>
+                    </div>
                   }
-                  style={{ marginBottom: '20px' }}
+                  style={{ marginBottom: '20px', backgroundColor: '#ededed' }}
                 >
+
+                  {/* Shape */}
                   <Row gutter={8} align="middle" style={{ marginBottom: '5px' }}>
                     <Col span={12}>
                       <Select
@@ -113,9 +127,13 @@ const ConfigPanel = ({ data, setData }) => {
                       {t('prob')}: {weight2prob(layer.shapes, shape.weight)}
                     </Col>
                   </Row>
+
+                  {/* Color */}
+                  <Divider></Divider>
+                  <PaletteSelector onChange={handlePaletteChange} />
                   {shape.colors.map((color, colorIndex) => (
                     <Row key={colorIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
-                      <Col span={12}>
+                      <Col span={5}>
                         <PresetColorPicker
                           value={color.color}
                           param={[layerIndex, shapeIndex, colorIndex]}
@@ -123,7 +141,10 @@ const ConfigPanel = ({ data, setData }) => {
                           style={{ width: '100%' }}
                         />
                       </Col>
-                      <Col span={6}>
+                      <Col span={4}style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        {t('weight')}:
+                      </Col>
+                      <Col span={5}>
                         <InputNumber
                           min={0}
                           step={0.01}
@@ -135,11 +156,24 @@ const ConfigPanel = ({ data, setData }) => {
                       <Col span={6}>
                         {t('prob')}: {weight2prob(shape.colors, color.weight)}
                       </Col>
+                      <Col span={3} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button type="primary" shape="circle" danger icon={<CloseOutlined />} size="small" />
+                      </Col>
                     </Row>
                   ))}
+                  <Button style={{
+                    width: '100%',
+                    backgroundColor: 'green',
+                    borderColor: 'green',
+                    color: 'white'
+                  }}>{t('add_color')}</Button>
+
+                  {/* Degree */}
+                  <Divider></Divider>
+                  <DegreePresetSelector onChange={handleDegreePresetChange} />
                   {shape.degrees.map((degree, degreeIndex) => (
                     <Row key={degreeIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
-                      <Col span={12}>
+                      <Col span={5}>
                         <InputNumber
                           min={0}
                           max={360}
@@ -149,7 +183,10 @@ const ConfigPanel = ({ data, setData }) => {
                           style={{ width: '100%' }}
                         />
                       </Col>
-                      <Col span={6}>
+                      <Col span={4}style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        {t('weight')}:
+                      </Col>
+                      <Col span={5} >
                         <InputNumber
                           min={0}
                           step={0.01}
@@ -161,8 +198,18 @@ const ConfigPanel = ({ data, setData }) => {
                       <Col span={6}>
                         {t('prob')}: {weight2prob(shape.degrees, degree.weight)}
                       </Col>
+                      <Col span={3} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button type="primary" shape="circle" danger icon={<CloseOutlined />} size="small" />
+                      </Col>
                     </Row>
                   ))}
+                  <Button style={{
+                    width: '100%',
+                    backgroundColor: 'green',
+                    borderColor: 'green',
+                    color: 'white'
+                  }}>{t('add_degree')}</Button>
+
                 </Card>
               </Col>
             ))}

@@ -8,8 +8,8 @@ export const initialData = {
           shape: 'blank',
           weight: 1,
           colors: [
-            { color: '#BAE0FF', weight: 1 },
-            { color: '#D3E5FF', weight: 1 },
+            // { color: '#BAE0FF', weight: 1 },
+            // { color: '#D3E5FF', weight: 1 },
             { color: '#A6CAFF', weight: 1 },
             { color: '#79AFFF', weight: 1 },
             { color: '#4C94FF', weight: 1 },

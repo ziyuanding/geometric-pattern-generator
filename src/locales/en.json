@@ -1,11 +1,18 @@
 {
-    "add_layer": "add layer",
-    "add_panel": "add panel",
-    "remove_layer": "remove layer",
-    "remove_panel": "remove panel",
-    "prob": "prob",
-    "regenerate": "regenerate",
-    "export_svg": "export svg",
-    "hor_grid_count": "hor grid count",
-    "ver_grid_count": "ver grid count"
-  }
+  "add_layer": "add layer",
+  "add_panel": "add panel",
+  "remove_layer": "remove layer",
+  "remove_panel": "remove panel",
+  "prob": "prob",
+  "regenerate": "regenerate",
+  "export_svg": "export svg",
+  "hor_grid_count": "hor grid count",
+  "ver_grid_count": "ver grid count",
+  "use_preset_colors": "use preset colors",
+  "add_color": "add color",
+  "use_preset_degrees": "use preset degrees",
+  "add_degree": "add degre",
+  "select_palette": "Select a color palette",
+  "select_degree_preset": "Select a degree preset",
+  "weight": "weight"
+}
