@@ -64,6 +64,41 @@ const ConfigPanel = ({ data, setData }) => {
   const isLayerDeleteDisabled = () => {
     return data.layers.length === 1;
   };
+
+  const isColorDeleteDisabled = (layerIndex, shapeIndex) => {
+    return data.layers[layerIndex].shapes[shapeIndex].colors.length === 1;
+  };
+
+  const isDegreeDeleteDisabled = (layerIndex, shapeIndex) => {
+    return data.layers[layerIndex].shapes[shapeIndex].degrees.length === 1;
+  };
+
+  const addColor = (layerIndex, shapeIndex) => {
+    const newData = { ...data };
+    newData.layers[layerIndex].shapes[shapeIndex].colors.push({ color: '#fe0000', weight: 1 })
+    setData(newData);
+  }
+
+  const addDegree = (layerIndex, shapeIndex) => {
+    const newData = { ...data };
+    newData.layers[layerIndex].shapes[shapeIndex].degrees.push({ degree: 0, weight: 1 })
+    setData(newData);
+  }
+
+  const removeColor = (layerIndex, shapeIndex, colorIndex) => {
+    const newColors = data.layers[layerIndex].shapes[shapeIndex].colors.filter((_, index) => index !== colorIndex);
+    const newData = { ...data };
+    newData.layers[layerIndex].shapes[shapeIndex].colors = newColors;
+    setData(newData);
+  }
+
+  const removeDegree = (layerIndex, shapeIndex, degreeIndex) => {
+    const newDegrees = data.layers[layerIndex].shapes[shapeIndex].degrees.filter((_, index) => index !== degreeIndex);
+    const newData = { ...data };
+    newData.layers[layerIndex].shapes[shapeIndex].degrees = newDegrees;
+    setData(newData);
+  }
+
   const handlePaletteChange = (palette) => {
     console.log('Selected palette:', palette);
   };
@@ -141,7 +176,7 @@ const ConfigPanel = ({ data, setData }) => {
                           style={{ width: '100%' }}
                         />
                       </Col>
-                      <Col span={4}style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Col span={4} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         {t('weight')}:
                       </Col>
                       <Col span={5}>
@@ -157,11 +192,19 @@ const ConfigPanel = ({ data, setData }) => {
                         {t('prob')}: {weight2prob(shape.colors, color.weight)}
                       </Col>
                       <Col span={3} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button type="primary" shape="circle" danger icon={<CloseOutlined />} size="small" />
+                        <Tooltip title={isColorDeleteDisabled(layerIndex, shapeIndex) ? 'Cannot delete the last color' : ''}>
+                          <Button
+                            disabled={isColorDeleteDisabled(layerIndex, shapeIndex)}
+                            onClick={() => removeColor(layerIndex, shapeIndex, colorIndex)}
+                            type="primary" shape="circle" danger
+                            icon={<CloseOutlined />}
+                            size="small" />
+                        </Tooltip>
+
                       </Col>
                     </Row>
                   ))}
-                  <Button style={{
+                  <Button onClick={() => addColor(layerIndex, shapeIndex)} style={{
                     width: '100%',
                     backgroundColor: 'green',
                     borderColor: 'green',
@@ -183,7 +226,7 @@ const ConfigPanel = ({ data, setData }) => {
                           style={{ width: '100%' }}
                         />
                       </Col>
-                      <Col span={4}style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Col span={4} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         {t('weight')}:
                       </Col>
                       <Col span={5} >
@@ -199,11 +242,18 @@ const ConfigPanel = ({ data, setData }) => {
                         {t('prob')}: {weight2prob(shape.degrees, degree.weight)}
                       </Col>
                       <Col span={3} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button type="primary" shape="circle" danger icon={<CloseOutlined />} size="small" />
+                        <Tooltip title={isDegreeDeleteDisabled(layerIndex, shapeIndex) ? 'Cannot delete the last degree' : ''}>
+                          <Button
+                            disabled={isDegreeDeleteDisabled(layerIndex, shapeIndex)}
+                            onClick={() => removeDegree(layerIndex, shapeIndex, degreeIndex)}
+                            type="primary" shape="circle" danger
+                            icon={<CloseOutlined />}
+                            size="small" />
+                        </Tooltip>
                       </Col>
                     </Row>
                   ))}
-                  <Button style={{
+                  <Button onClick={() => addDegree(layerIndex, shapeIndex)} style={{
                     width: '100%',
                     backgroundColor: 'green',
                     borderColor: 'green',
