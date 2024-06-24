@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from 'antd';
-import {choice} from './utils';
+import { Button, message } from 'antd';
+
+import { choice } from './utils';
 import { useTranslation } from 'react-i18next';
 
 const SVGGenerator = ({ data }) => {
@@ -102,10 +103,22 @@ const SVGGenerator = ({ data }) => {
     URL.revokeObjectURL(url);
   };
 
+
+  const copyJSON = () => {
+    navigator.clipboard.writeText(JSON.stringify(data))
+      .then(() => {
+        message.success('Text copied to clipboard!');
+      })
+      .catch(err => {
+        message.error('Failed to copy text.');
+        console.error('Failed to copy text: ', err);
+      });
+  }
   return (
     <div>
       <Button className="bottom-button" onClick={generateAndDisplayPattern}> {t('regenerate')} </Button>
       <Button className="bottom-button" onClick={exportSVG}> {t('export_svg')} </Button>
+      <Button className="bottom-button" onClick={copyJSON}> {t('copy_current_json')} </Button>
     </div>
   );
 };

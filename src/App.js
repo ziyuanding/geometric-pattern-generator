@@ -1,59 +1,49 @@
 import React, { useState } from 'react';
-import { Button, InputNumber } from 'antd';
-import ConfigPanel from './ConfigPanel';
-import SVGGenerator from './SVGGenerator';
-import {initialData} from './initialData';
-import LanguageSwitcher from './LanguageSwitcher';
-import { useTranslation } from 'react-i18next';
 
+import { initialData } from './initialData';
+import { useTranslation } from 'react-i18next';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
+import Home from './Home'
+import Gallery from './Gallery'
 import './App.css';
+const { Header, Content, Footer } = Layout;
 
 const App = () => {
-  const { t } = useTranslation();
-
-  const [data, setData] = useState(initialData);
-
-  const handleGridChange = (key, value) => {
-    const newData = { ...data };
-    newData[key] = value;
-    setData(newData);
-  };
-
   return (
-    <div style={{ padding: '1px' }} className="container">
-      
-      <div className="left-pane">
-      
-        <ConfigPanel data={data} setData={setData} />
-      </div>
-      <div className="right-pane">
-        <div>
-          {t('hor_grid_count')}:
-          <InputNumber
-            min={1}
-            step={1}
-            value={data.grid_hor}
-            onChange={(value) => handleGridChange('grid_hor', value)}
-          />
-          {t('ver_grid_count')}:
-          <InputNumber
-            min={1}
-            step={1}
-            value={data.grid_ver}
-            onChange={(value) => handleGridChange('grid_ver', value)}
-          />
-        </div>
-        <div id="svgContainer"></div>
-        <SVGGenerator data={data} />
-        <a href="https://www.buymeacoffee.com/ziyuanding" target="_blank" rel="noopener noreferrer" style={{ display: 'block', textAlign: 'right' }}>
-          <img
-            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-            alt="Buy Me A Coffee"
-            style={{ height: '30px', width: '100px' }}
-          />
-        </a>
-      </div>
-    </div>
+    <Router>
+      <Layout>
+        <Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="demo-logo" />
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={['1']}
+            style={{ flex: 1, minWidth: 0 }}
+          > <Menu.Item key="1">
+              <Link to="/">Home</Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/gallery">Gallery</Link>
+            </Menu.Item>
+          </Menu>
+          <div>
+            <a href="https://www.buymeacoffee.com/ziyuanding" target="_blank" rel="noopener noreferrer">
+              <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style={{ height: '35%', width: '35%' }} />
+            </a>
+          </div>
+        </Header>
+        <Content style={{ padding: '0 48px' }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/gallery" element={<Gallery />} />
+          </Routes>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          geometric-pattern-generator ©{new Date().getFullYear()} Created by Ziyuan Ding
+        </Footer>
+      </Layout>
+    </Router>
   );
 };
 

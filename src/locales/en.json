@@ -14,5 +14,7 @@
   "add_degree": "add degre",
   "select_palette": "Select a color palette",
   "select_degree_preset": "Select a degree preset",
-  "weight": "weight"
+  "weight": "weight",
+  "copy_current_json": "copy source data of current image"
+
 }

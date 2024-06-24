@@ -14,5 +14,6 @@
   "add_degree": "添加角度",
   "select_palette": "请选择一组预设颜色",
   "select_degree_preset": "请选择一组预设角度",
-  "weight": "权重"
+  "weight": "权重",
+  "copy_current_json": "复制当前图形源数据"
 }
