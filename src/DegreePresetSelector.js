@@ -12,10 +12,10 @@ const degreePresets = {
 
 const renderPresetLines = (degrees) => {
 
-  const center = 25; // Center of the SVG
-  const radius = 20; // Length of the line
+  const center = 10; // Center of the SVG
+  const radius = 10; // Length of the line
   return (
-    <svg width="50" height="50" viewBox="0 0 50 50">
+    <svg width="20" height="20" viewBox="0 0 20 20" style={{ display: 'flex', alignItems: 'center' }}>
       {degrees.map((degree) => {
         const rad = (degree * Math.PI) / 180;
         const x2 = center + radius * Math.cos(rad);
