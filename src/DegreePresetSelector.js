@@ -26,12 +26,12 @@ const renderPresetLines = (degrees) => {
   );
 };
 
-const DegreePresetSelector = ({ onChange }) => {
+const DegreePresetSelector = ({ onChange, param }) => {
   const { t } = useTranslation();
 
   const handleChange = (value) => {
     if (onChange) {
-      onChange(degreePresets[value]);
+      onChange(degreePresets[value], param[0], param[1]);
     }
   };
 

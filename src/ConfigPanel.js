@@ -99,12 +99,28 @@ const ConfigPanel = ({ data, setData }) => {
     setData(newData);
   }
 
-  const handlePaletteChange = (palette) => {
+  const handlePaletteChange = (palette, layerIndex, shapeIndex) => {
     console.log('Selected palette:', palette);
+    const convertedColors = palette.map(color => ({
+      color,
+      weight: 1
+    }));
+
+    const newData = { ...data };
+    newData.layers[layerIndex].shapes[shapeIndex].colors = convertedColors
+    setData(newData);
   };
 
-  const handleDegreePresetChange = (degrees) => {
+  const handleDegreePresetChange = (degrees, layerIndex, shapeIndex) => {
     console.log('Selected degrees:', degrees);
+    const convertedDegrees = degrees.map(degree => ({
+      degree,
+      weight: 1
+    }));
+
+    const newData = { ...data };
+    newData.layers[layerIndex].shapes[shapeIndex].degrees = convertedDegrees
+    setData(newData);
   };
   return (
     <div>
@@ -165,7 +181,9 @@ const ConfigPanel = ({ data, setData }) => {
 
                   {/* Color */}
                   <Divider></Divider>
-                  <PaletteSelector onChange={handlePaletteChange} />
+                  <PaletteSelector
+                    onChange={handlePaletteChange}
+                    param={[layerIndex, shapeIndex]} />
                   {shape.colors.map((color, colorIndex) => (
                     <Row key={colorIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
                       <Col span={5}>
@@ -213,7 +231,9 @@ const ConfigPanel = ({ data, setData }) => {
 
                   {/* Degree */}
                   <Divider></Divider>
-                  <DegreePresetSelector onChange={handleDegreePresetChange} />
+                  <DegreePresetSelector 
+                  onChange={handleDegreePresetChange} 
+                  param={[layerIndex, shapeIndex]}/>
                   {shape.degrees.map((degree, degreeIndex) => (
                     <Row key={degreeIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
                       <Col span={5}>

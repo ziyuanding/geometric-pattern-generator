@@ -11,14 +11,14 @@ const colorPalettes = {
     Green: ['#98FB98', '#90EE90', '#00FA9A', '#00FF7F'],
 };
 
-const PaletteSelector = ({ onChange }) => {
+const PaletteSelector = ({ onChange, param }) => {
     const { t } = useTranslation();
     const [selectedPalette, setSelectedPalette] = useState([]);
 
     const handleChange = (value) => {
         const selectedColors = colorPalettes[value];
         setSelectedPalette(selectedColors);
-        onChange(selectedColors);
+        onChange(selectedColors, param[0], param[1]);
     };
 
     const renderPalette = (palette) => (
