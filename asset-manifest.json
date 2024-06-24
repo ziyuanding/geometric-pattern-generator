@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/geometric-pattern-generator/static/css/main.b9f3416f.css",
-    "main.js": "/geometric-pattern-generator/static/js/main.cdcd5522.js",
+    "main.css": "/geometric-pattern-generator/static/css/main.3a997335.css",
+    "main.js": "/geometric-pattern-generator/static/js/main.1c5359c6.js",
     "static/js/453.cb53f03a.chunk.js": "/geometric-pattern-generator/static/js/453.cb53f03a.chunk.js",
     "index.html": "/geometric-pattern-generator/index.html",
-    "main.b9f3416f.css.map": "/geometric-pattern-generator/static/css/main.b9f3416f.css.map",
-    "main.cdcd5522.js.map": "/geometric-pattern-generator/static/js/main.cdcd5522.js.map",
+    "main.3a997335.css.map": "/geometric-pattern-generator/static/css/main.3a997335.css.map",
+    "main.1c5359c6.js.map": "/geometric-pattern-generator/static/js/main.1c5359c6.js.map",
     "453.cb53f03a.chunk.js.map": "/geometric-pattern-generator/static/js/453.cb53f03a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b9f3416f.css",
-    "static/js/main.cdcd5522.js"
+    "static/css/main.3a997335.css",
+    "static/js/main.1c5359c6.js"
   ]
 }
