@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
+import './i18n'; // import i18n configuration
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

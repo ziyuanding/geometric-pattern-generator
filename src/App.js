@@ -3,6 +3,8 @@ import { Button, InputNumber } from 'antd';
 import ConfigPanel from './ConfigPanel';
 import SVGGenerator from './SVGGenerator';
 import initialData from './initialData';
+import LanguageSwitcher from './LanguageSwitcher';
+
 import './App.css';
 
 const App = () => {
@@ -16,6 +18,7 @@ const App = () => {
 
   return (
     <div style={{ padding: '1px' }} className="container">
+      <LanguageSwitcher />
       <div className="left-pane">
         <ConfigPanel data={data} setData={setData} />
       </div>
