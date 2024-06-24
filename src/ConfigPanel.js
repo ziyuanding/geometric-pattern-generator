@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Row, Col, Card, Tooltip, Divider, Select, InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { weight2prob, genPresets } from './utils';
-import { shape_options } from './initialData'
+import { shape_options, initialData } from './initialData'
 import PresetColorPicker from './PresetColorPicker';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -17,7 +17,7 @@ const ConfigPanel = ({ data, setData }) => {
 
   const handleColorChange = (layerIndex, shapeIndex, colorIndex, key, value) => {
     const newData = { ...data };
-    newData.layers[layerIndex].shapes[shapeIndex].colors[colorIndex][key] = value.metaColor.originalInput;
+    newData.layers[layerIndex].shapes[shapeIndex].colors[colorIndex][key] = value;
     setData(newData);
   };
 
@@ -29,14 +29,14 @@ const ConfigPanel = ({ data, setData }) => {
 
   const addShape = (layerIndex) => {
     const newData = { ...data };
-    const newShape = structuredClone(data.layers[0].shapes[0]);
+    const newShape = structuredClone(initialData.layers[0].shapes[0]);
     newData.layers[layerIndex].shapes.push(newShape);
     setData(newData);
   };
 
   const addLayer = () => {
     const newData = { ...data };
-    const newLayer = structuredClone(data.layers[0]);
+    const newLayer = structuredClone(initialData.layers[0]);
     newData.layers.push(newLayer);
     setData(newData);
   };
@@ -64,17 +64,17 @@ const ConfigPanel = ({ data, setData }) => {
   return (
     <div>
       <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
-        {t('add_layer')} 
+        {t('add_layer')}
       </Button>
       <LanguageSwitcher />
       {data.layers.map((layer, layerIndex) => (
         <div key={layerIndex}>
           <Button type="primary" onClick={() => addShape(layerIndex)} style={{ marginBottom: '20px' }}>
-          {t('add_panel')}
+            {t('add_panel')}
           </Button>
           <Tooltip title={isLayerDeleteDisabled() ? 'Cannot delete the last layer' : ''}>
             <Button type="primary" danger disabled={isLayerDeleteDisabled()} onClick={() => removeLayer(layerIndex)} style={{ marginBottom: '20px' }}>
-            {t('remove_layer')}
+              {t('remove_layer')}
             </Button>
           </Tooltip>
           <Row gutter={16}>
@@ -110,7 +110,7 @@ const ConfigPanel = ({ data, setData }) => {
                       />
                     </Col>
                     <Col span={6}>
-                    {t('prob')}: {weight2prob(layer.shapes, shape.weight)}
+                      {t('prob')}: {weight2prob(layer.shapes, shape.weight)}
                     </Col>
                   </Row>
                   {shape.colors.map((color, colorIndex) => (
@@ -119,6 +119,7 @@ const ConfigPanel = ({ data, setData }) => {
                         <PresetColorPicker
                           value={color.color}
                           param={[layerIndex, shapeIndex, colorIndex]}
+                          handleColorChange={handleColorChange}
                           style={{ width: '100%' }}
                         />
                       </Col>
@@ -132,7 +133,7 @@ const ConfigPanel = ({ data, setData }) => {
                         />
                       </Col>
                       <Col span={6}>
-                      {t('prob')}: {weight2prob(shape.colors, color.weight)}
+                        {t('prob')}: {weight2prob(shape.colors, color.weight)}
                       </Col>
                     </Row>
                   ))}
@@ -158,7 +159,7 @@ const ConfigPanel = ({ data, setData }) => {
                         />
                       </Col>
                       <Col span={6}>
-                      {t('prob')}: {weight2prob(shape.degrees, degree.weight)}
+                        {t('prob')}: {weight2prob(shape.degrees, degree.weight)}
                       </Col>
                     </Row>
                   ))}

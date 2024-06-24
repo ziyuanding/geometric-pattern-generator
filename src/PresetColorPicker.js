@@ -23,7 +23,7 @@ const PresetColorPicker = ({ value, param, handleColorChange }) => {
   return (
     <ColorPicker
       value={value}
-      onChangeComplete={(e) => handleColorChange(param[0], param[1], param[2], 'color', e)}
+      onChangeComplete={(e) => handleColorChange(param[0], param[1], param[2], 'color', e.metaColor.originalInput)}
       styles={{
         popupOverlayInner: {
           width: 480,

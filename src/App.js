@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, InputNumber } from 'antd';
 import ConfigPanel from './ConfigPanel';
 import SVGGenerator from './SVGGenerator';
-import initialData from './initialData';
+import {initialData} from './initialData';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
