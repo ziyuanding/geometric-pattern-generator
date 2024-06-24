@@ -1,4 +1,11 @@
 {
-    "welcome": "Welcome",
-    "description": "This is an internationalized application."
-}
+    "add_layer": "add layer",
+    "add_panel": "add panel",
+    "remove_layer": "remove layer",
+    "remove_panel": "remove panel",
+    "prob": "prob",
+    "regenerate": "regenerate",
+    "export_svg": "export svg",
+    "hor_grid_count": "hor grid count",
+    "ver_grid_count": "ver grid count"
+  }

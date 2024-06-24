@@ -1,18 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
+  const changeLanguage = (value) => {
+    i18n.changeLanguage(value);
   };
 
   return (
-    <div>
-      <button onClick={() => changeLanguage('en')}>English</button>
-      <button onClick={() => changeLanguage('zh')}>中文</button>
-    </div>
+    <Select defaultValue={i18n.language} style={{ width: 120 }} onChange={changeLanguage}>
+      <Option value="en">English</Option>
+      <Option value="zh">中文</Option>
+    </Select>
   );
 };
 

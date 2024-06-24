@@ -1,4 +1,11 @@
 {
-  "welcome": "欢迎",
-  "description": "这是一个国际化的应用程序。"
+  "add_layer": "添加层",
+  "add_panel": "添加面板",
+  "remove_layer": "删除层",
+  "remove_panel": "删除面板",
+  "prob": "概率",
+  "regenerate": "重新生成",
+  "export_svg": "导出SVG",
+  "hor_grid_count": "横向方格数量",
+  "ver_grid_count": "纵向方格数量"
 }

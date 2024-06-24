@@ -4,10 +4,13 @@ import ConfigPanel from './ConfigPanel';
 import SVGGenerator from './SVGGenerator';
 import initialData from './initialData';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 import './App.css';
 
 const App = () => {
+  const { t } = useTranslation();
+
   const [data, setData] = useState(initialData);
 
   const handleGridChange = (key, value) => {
@@ -18,20 +21,21 @@ const App = () => {
 
   return (
     <div style={{ padding: '1px' }} className="container">
-      <LanguageSwitcher />
+      
       <div className="left-pane">
+      
         <ConfigPanel data={data} setData={setData} />
       </div>
       <div className="right-pane">
         <div>
-          grid_hor:
+          {t('hor_grid_count')}:
           <InputNumber
             min={1}
             step={1}
             value={data.grid_hor}
             onChange={(value) => handleGridChange('grid_hor', value)}
           />
-          grid_ver:
+          {t('ver_grid_count')}:
           <InputNumber
             min={1}
             step={1}

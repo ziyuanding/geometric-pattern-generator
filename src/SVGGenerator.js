@@ -1,8 +1,11 @@
 import React from 'react';
 import { Button } from 'antd';
 import {choice} from './utils';
+import { useTranslation } from 'react-i18next';
 
 const SVGGenerator = ({ data }) => {
+  const { t } = useTranslation();
+
   const generateSVG = (shapeName, shapeColors, shapeDegrees) => {
     const svgns = "http://www.w3.org/2000/svg";
     const svgElement = document.createElementNS(svgns, 'svg');
@@ -101,8 +104,8 @@ const SVGGenerator = ({ data }) => {
 
   return (
     <div>
-      <Button className="bottom-button" onClick={generateAndDisplayPattern}> regenerate </Button>
-      <Button className="bottom-button" onClick={exportSVG}> export svg </Button>
+      <Button className="bottom-button" onClick={generateAndDisplayPattern}> {t('regenerate')} </Button>
+      <Button className="bottom-button" onClick={exportSVG}> {t('export_svg')} </Button>
     </div>
   );
 };

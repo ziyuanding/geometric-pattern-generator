@@ -1,10 +1,14 @@
 import React from 'react';
 import { Button, Row, Col, Card, Tooltip, Divider, Select, InputNumber } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { weight2prob, genPresets } from './utils';
 import { shape_options } from './initialData'
 import PresetColorPicker from './PresetColorPicker';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const ConfigPanel = ({ data, setData }) => {
+  const { t } = useTranslation();
+
   const handleShapeChange = (layerIndex, shapeIndex, key, value) => {
     const newData = { ...data };
     newData.layers[layerIndex].shapes[shapeIndex][key] = value;
@@ -60,16 +64,17 @@ const ConfigPanel = ({ data, setData }) => {
   return (
     <div>
       <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
-        添加Layer
+        {t('add_layer')} 
       </Button>
+      <LanguageSwitcher />
       {data.layers.map((layer, layerIndex) => (
         <div key={layerIndex}>
           <Button type="primary" onClick={() => addShape(layerIndex)} style={{ marginBottom: '20px' }}>
-            添加面板
+          {t('add_panel')}
           </Button>
           <Tooltip title={isLayerDeleteDisabled() ? 'Cannot delete the last layer' : ''}>
             <Button type="primary" danger disabled={isLayerDeleteDisabled()} onClick={() => removeLayer(layerIndex)} style={{ marginBottom: '20px' }}>
-              删除整层
+            {t('remove_layer')}
             </Button>
           </Tooltip>
           <Row gutter={16}>
@@ -80,7 +85,7 @@ const ConfigPanel = ({ data, setData }) => {
                   extra={
                     <Tooltip title={isShapeDeleteDisabled(layerIndex) ? 'Cannot delete the last shape' : ''}>
                       <Button type="primary" danger disabled={isShapeDeleteDisabled(layerIndex)} onClick={() => removeShape(layerIndex, shapeIndex)}>
-                        删除
+                        {t('remove_panel')}
                       </Button>
                     </Tooltip>
                   }
@@ -105,7 +110,7 @@ const ConfigPanel = ({ data, setData }) => {
                       />
                     </Col>
                     <Col span={6}>
-                      prob: {weight2prob(layer.shapes, shape.weight)}
+                    {t('prob')}: {weight2prob(layer.shapes, shape.weight)}
                     </Col>
                   </Row>
                   {shape.colors.map((color, colorIndex) => (
@@ -127,7 +132,7 @@ const ConfigPanel = ({ data, setData }) => {
                         />
                       </Col>
                       <Col span={6}>
-                        prob: {weight2prob(shape.colors, color.weight)}
+                      {t('prob')}: {weight2prob(shape.colors, color.weight)}
                       </Col>
                     </Row>
                   ))}
@@ -153,7 +158,7 @@ const ConfigPanel = ({ data, setData }) => {
                         />
                       </Col>
                       <Col span={6}>
-                        prob: {weight2prob(shape.degrees, degree.weight)}
+                      {t('prob')}: {weight2prob(shape.degrees, degree.weight)}
                       </Col>
                     </Row>
                   ))}
