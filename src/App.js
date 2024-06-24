@@ -21,7 +21,7 @@ const App = () => {
             defaultSelectedKeys={['1']}
             style={{ flex: 1, minWidth: 0 }}
           > <Menu.Item key="1">
-              <Link to="/">Home</Link>
+              <Link to="/geometric-pattern-generator">Home</Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to="/gallery">Gallery</Link>
@@ -35,7 +35,7 @@ const App = () => {
         </Header>
         <Content style={{ padding: '0 48px' }}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/geometric-pattern-generator" element={<Home />} />
             <Route path="/gallery" element={<Gallery />} />
           </Routes>
         </Content>
