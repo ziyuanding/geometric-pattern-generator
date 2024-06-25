@@ -6,11 +6,16 @@ import { shape_options, initialData } from './initialData'
 import PresetColorPicker from './PresetColorPicker';
 import PaletteSelector from './PaletteSelector';
 import DegreePresetSelector from './DegreePresetSelector';
-
+import { useState } from 'react';
+import { Modal, Input, message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
-
+const { TextArea } = Input;
 const ConfigPanel = ({ data, setData }) => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [datajson, setDataJSON] = useState(JSON.stringify(data));
+
+  const [messageApi, contextHolder] = message.useMessage();
 
   const handleShapeChange = (layerIndex, shapeIndex, key, value) => {
     const newData = { ...data };
@@ -121,11 +126,58 @@ const ConfigPanel = ({ data, setData }) => {
     newData.layers[layerIndex].shapes[shapeIndex].degrees = convertedDegrees
     setData(newData);
   };
+
+  const handleDataEditorChange = (value) => {
+    console.log(value)
+  }
+
+  // 处理用户编辑 JSON 字符串的函数
+  const handleJSONCancel = () => {
+    setDataJSON(JSON.stringify(data));
+    setOpen(false)
+  };
+
+  // 保存编辑后的 JSON 数据
+  const handleJSONSave = () => {
+    try {
+      const newData = JSON.parse(datajson);
+      setData(newData); // 更新数据状态
+      setOpen(false)
+    } catch (error) {
+      messageApi.error('Invalid JSON format:', error);
+      console.log('Invalid JSON format:', error)
+      setDataJSON(JSON.stringify(data));
+    }
+  };
+
+  const handleTextAreaChange = (e) => {
+    setDataJSON(e);
+  }
   return (
     <div>
       <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
         {t('add_layer')}
       </Button>
+      <Button type="primary" onClick={() => setOpen(true)} style={{ marginBottom: '20px' }}>
+        {t('data_editor')}
+      </Button>
+      {contextHolder}
+      <Modal
+        title="Modal 1000px width"
+        centered
+        open={open}
+        onOk={handleJSONSave}
+        onCancel={handleJSONCancel}
+        width={1000}
+      >
+        <TextArea
+          rows={10}
+          value={datajson}
+          onChange={(e) => handleTextAreaChange(e.target.value)}
+          placeholder="Enter JSON data here..."
+        />
+      </Modal>
+
       {data.layers.map((layer, layerIndex) => (
         <div key={layerIndex}>
           <Button type="primary" onClick={() => addShape(layerIndex)} style={{ marginBottom: '20px' }}>
@@ -229,9 +281,9 @@ const ConfigPanel = ({ data, setData }) => {
 
                   {/* Degree */}
                   <Divider></Divider>
-                  <DegreePresetSelector 
-                  onChange={handleDegreePresetChange} 
-                  param={[layerIndex, shapeIndex]}/>
+                  <DegreePresetSelector
+                    onChange={handleDegreePresetChange}
+                    param={[layerIndex, shapeIndex]} />
                   {shape.degrees.map((degree, degreeIndex) => (
                     <Row key={degreeIndex} gutter={8} align="middle" style={{ marginBottom: '5px' }}>
                       <Col span={5}>

@@ -15,6 +15,6 @@
   "select_palette": "Select a color palette",
   "select_degree_preset": "Select a degree preset",
   "weight": "weight",
-  "copy_current_json": "copy source data of current image"
-
+  "copy_current_json": "copy source data of current image",
+  "data_editor": "edit data directly"
 }

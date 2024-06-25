@@ -15,5 +15,6 @@
   "select_palette": "请选择一组预设颜色",
   "select_degree_preset": "请选择一组预设角度",
   "weight": "权重",
-  "copy_current_json": "复制当前图形源数据"
+  "copy_current_json": "复制当前图形源数据",
+  "data_editor": "直接编辑数据"
 }
