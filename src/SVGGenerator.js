@@ -3,7 +3,7 @@ import { Button, message } from 'antd';
 
 import { choice } from './utils';
 import { useTranslation } from 'react-i18next';
-
+import { shape_options } from './initialData';
 const SVGGenerator = ({ data }) => {
   const { t } = useTranslation();
 
@@ -16,29 +16,11 @@ const SVGGenerator = ({ data }) => {
   };
 
   const getShape = (shapeName, shapeColors, shapeDegrees) => {
-    const svgns = "http://www.w3.org/2000/svg";
     let shapeElement;
-    switch (shapeName) {
-      case 'circle':
-        shapeElement = document.createElementNS(svgns, 'circle');
-        shapeElement.setAttribute('cx', '50');
-        shapeElement.setAttribute('cy', '50');
-        shapeElement.setAttribute('r', '50');
-        break;
-      case 'quarter_circle':
-        shapeElement = document.createElementNS(svgns, 'path');
-        shapeElement.setAttribute('d', 'M0,0 Q0,100 100,100 L100,0 Z');
-        break;
-      case 'blank':
-        shapeElement = document.createElementNS(svgns, 'path');
-        shapeElement.setAttribute('d', 'M0,0 L100,0 L100,100 L0,100 Z');
-        break;
-      case 'diagonal':
-        shapeElement = document.createElementNS(svgns, 'path');
-        shapeElement.setAttribute('d', 'M0,0 L100,0 L0,100 Z');
-        break;
-    }
+    shapeElement = shape_options.find(option => option.value === shapeName).shape();
     shapeElement.setAttribute('fill', choice(shapeColors).color);
+    shapeElement.setAttribute('stroke', choice(shapeColors).color);
+
     shapeElement.setAttribute('transform', `rotate(${choice(shapeDegrees).degree},50,50)`);
     return shapeElement;
   };
