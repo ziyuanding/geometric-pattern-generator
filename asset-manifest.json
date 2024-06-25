@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/geometric-pattern-generator/static/css/main.3a997335.css",
-    "main.js": "/geometric-pattern-generator/static/js/main.f7fe92d1.js",
+    "main.js": "/geometric-pattern-generator/static/js/main.88b05df5.js",
     "static/js/453.cb53f03a.chunk.js": "/geometric-pattern-generator/static/js/453.cb53f03a.chunk.js",
     "index.html": "/geometric-pattern-generator/index.html",
     "main.3a997335.css.map": "/geometric-pattern-generator/static/css/main.3a997335.css.map",
-    "main.f7fe92d1.js.map": "/geometric-pattern-generator/static/js/main.f7fe92d1.js.map",
+    "main.88b05df5.js.map": "/geometric-pattern-generator/static/js/main.88b05df5.js.map",
     "453.cb53f03a.chunk.js.map": "/geometric-pattern-generator/static/js/453.cb53f03a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3a997335.css",
-    "static/js/main.f7fe92d1.js"
+    "static/js/main.88b05df5.js"
   ]
 }
