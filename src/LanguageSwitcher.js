@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Menu, Dropdown, Button } from 'antd';
+import { GlobalOutlined, DownOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 
 const { Option } = Select;
@@ -12,9 +14,9 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <Select defaultValue={i18n.language} style={{ width: 120 }} onChange={changeLanguage}>
-      <Option value="en">English</Option>
-      <Option value="zh">中文</Option>
+    <Select defaultValue={'en'} style={{ height: '100%' }} onChange={changeLanguage}>
+      <Option value="en"><GlobalOutlined /> English</Option>
+      <Option value="zh"><GlobalOutlined /> 中文</Option>
     </Select>
   );
 };

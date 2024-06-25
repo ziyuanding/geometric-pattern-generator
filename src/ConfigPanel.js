@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { weight2prob, genPresets } from './utils';
 import { shape_options, initialData } from './initialData'
 import PresetColorPicker from './PresetColorPicker';
-import LanguageSwitcher from './LanguageSwitcher';
 import PaletteSelector from './PaletteSelector';
 import DegreePresetSelector from './DegreePresetSelector';
 
@@ -127,7 +126,6 @@ const ConfigPanel = ({ data, setData }) => {
       <Button type="primary" onClick={addLayer} style={{ marginBottom: '20px' }}>
         {t('add_layer')}
       </Button>
-      <LanguageSwitcher />
       {data.layers.map((layer, layerIndex) => (
         <div key={layerIndex}>
           <Button type="primary" onClick={() => addShape(layerIndex)} style={{ marginBottom: '20px' }}>

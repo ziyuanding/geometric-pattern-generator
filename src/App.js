@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { initialData } from './initialData';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, MenuItemGroup } from 'antd';
 import Home from './Home'
 import Gallery from './Gallery'
+import LanguageSwitcher from './LanguageSwitcher';
 import './App.css';
 const { Header, Content, Footer } = Layout;
 
@@ -26,10 +27,12 @@ const App = () => {
             <Menu.Item key="2">
               <Link to="/gallery">Gallery</Link>
             </Menu.Item>
+
           </Menu>
-          <div>
+          <LanguageSwitcher />
+          <div style={{ height: '63px' }}>
             <a href="https://www.buymeacoffee.com/ziyuanding" target="_blank" rel="noopener noreferrer">
-              <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style={{ height: '35%', width: '35%' }} />
+              <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" style={{ height: '100%', verticalAlign: 'top' }} />
             </a>
           </div>
         </Header>
