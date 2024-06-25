@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { InputNumber } from 'antd';
-import ConfigPanel from './ConfigPanel';
-import SVGGenerator from './SVGGenerator';
-import { initialData } from './initialData';
-import FloatButtons from './FloatButtons'
+import ConfigPanel from '../components/ConfigPanel';
+import SVGGenerator from '../components/SVGGenerator';
+import { initialData } from '../initialData';
+import FloatButtons from '../components/FloatButtons'
 import { useTranslation } from 'react-i18next';
 
 

@@ -4,9 +4,9 @@ import { initialData } from './initialData';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Layout, Menu, MenuItemGroup } from 'antd';
-import Home from './Home'
-import Gallery from './Gallery'
-import LanguageSwitcher from './LanguageSwitcher';
+import Home from './pages/Home'
+import Gallery from './pages/Gallery'
+import LanguageSwitcher from './components/LanguageSwitcher';
 import './App.css';
 const { Header, Content, Footer } = Layout;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, message } from 'antd';
 
-import { choice } from './utils';
+import { choice } from '../utils';
 import { useTranslation } from 'react-i18next';
-import { shape_options } from './initialData';
+import { shape_options } from '../initialData';
 const SVGGenerator = ({ data }) => {
   const { t } = useTranslation();
 

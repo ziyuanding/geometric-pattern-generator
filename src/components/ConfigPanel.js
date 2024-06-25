@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Row, Col, Card, Tooltip, Divider, Select, InputNumber } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { weight2prob, genPresets } from './utils';
-import { shape_options, initialData } from './initialData'
+import { weight2prob, genPresets } from '../utils';
+import { shape_options, initialData } from '../initialData'
 import PresetColorPicker from './PresetColorPicker';
 import PaletteSelector from './PaletteSelector';
 import DegreePresetSelector from './DegreePresetSelector';

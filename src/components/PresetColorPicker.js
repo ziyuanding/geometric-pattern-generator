@@ -1,6 +1,6 @@
 import React from 'react';
 import { ColorPicker, Row, Col, Divider } from 'antd';
-import { presets } from './utils';
+import { presets } from '../utils';
 
 const PresetColorPicker = ({ value, param, handleColorChange }) => {
   const customPanelRender = (_, { components: { Picker, Presets } }) => (
