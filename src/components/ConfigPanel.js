@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { Modal, Input, message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
+const { Option } = Select;
 const ConfigPanel = ({ data, setData }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -211,9 +212,14 @@ const ConfigPanel = ({ data, setData }) => {
                       <Select
                         defaultValue={shape.shape}
                         style={{ width: '100%' }}
-                        options={shape_options}
                         onChange={(value) => handleShapeChange(layerIndex, shapeIndex, 'shape', value)}
-                      />
+                      >
+                        {shape_options.map((shape_option, shapeOptionIndex) => (
+                          <Option key={shape_option.value} value={shape_option.value}>
+                            {t(shape_option.value)}
+                          </Option>
+                        ))}
+                      </Select>
                     </Col>
                     <Col span={6}>
                       <InputNumber

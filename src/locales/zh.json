@@ -16,5 +16,23 @@
   "select_degree_preset": "请选择一组预设角度",
   "weight": "权重",
   "copy_current_json": "复制当前图形源数据",
-  "data_editor": "直接编辑数据"
+  "data_editor": "直接编辑数据",
+  "color_red": "红色",
+  "color_yellow": "黄色",
+  "color_blue": "蓝色",
+  "color_green": "绿色",
+
+
+
+  "blank": "空白",
+  "circle": "圆",
+  "quarter_circle": "四分之一圆",
+  "diagonal": "对角线",
+  "quarter_ring": "四分之一圆环",
+  "half_quarter_ring": "八分之一圆环",
+  "four_lines": "四条平行线",
+  "mid_square": "同心正方形",
+
+  "Home": "首页",
+  "Gallery": "作品展示"
 }

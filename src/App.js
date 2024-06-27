@@ -11,6 +11,8 @@ import './App.css';
 const { Header, Content, Footer } = Layout;
 
 const App = () => {
+  const { t } = useTranslation();
+
   return (
     <Router>
       <Layout>
@@ -22,10 +24,10 @@ const App = () => {
             defaultSelectedKeys={['1']}
             style={{ flex: 1, minWidth: 0 }}
           > <Menu.Item key="1">
-              <Link to="/geometric-pattern-generator">Home</Link>
+              <Link to="/geometric-pattern-generator">{t("Home")}</Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/gallery">Gallery</Link>
+              <Link to="/gallery">{t("Gallery")}</Link>
             </Menu.Item>
 
           </Menu>

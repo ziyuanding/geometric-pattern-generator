@@ -16,5 +16,21 @@
   "select_degree_preset": "Select a degree preset",
   "weight": "weight",
   "copy_current_json": "copy source data of current image",
-  "data_editor": "edit data directly"
+  "data_editor": "edit data directly",
+  "color_red": "Red",
+  "color_yellow": "Yellow",
+  "color_blue": "Blue",
+  "color_green": "Green",
+
+  "blank": "blank",
+  "circle": "circle",
+  "quarter_circle": "quarter_circle",
+  "diagonal": "diagonal",
+  "quarter_ring": "quarter_ring",
+  "half_quarter_ring": "half_quarter_ring",
+  "four_lines": "four_lines",
+  "mid_square": "mid_square",
+
+  "Home": "Home",
+  "Gallery": "Gallery"
 }
