@@ -193,7 +193,7 @@ const ConfigPanel = ({ data, setData }) => {
             {layer.shapes.map((shape, shapeIndex) => (
               <Col span={6} key={shapeIndex}>
                 <Card
-                  title={`Shape ${shapeIndex + 1}`}
+                  title={`${t('Shape')} ${shapeIndex + 1}`}
                   extra={
                     <div>
                       <Tooltip title={isShapeDeleteDisabled(layerIndex) ? 'Cannot delete the last shape' : ''}>
